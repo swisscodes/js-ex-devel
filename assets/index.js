@@ -1,18 +1,22 @@
 const getElById = (id) => document.getElementById(id);
-const form = getElById('testform');
+const testform = getElById('testform');
 
-form.addEventListener('submit', (event) => {
+testform.addEventListener('submit', (event) => {
   event.preventDefault();
+  var bookFromStorage;
 
-  const bookTitle = form.elements['book_title'].value;
+  const bookTitle = testform.elements['book_title'].value;
 
   localStorage.setItem('book title', JSON.stringify(bookTitle));
-  render();
+  bookFromStorage = localStorage.getItem('book title');
+  render(bookFromStorage);
+  testform.elements['book_title'].value = '';
 });
 
-function render() {
-  const h3 = document.createElement('h3');
-  h3.innerText = localStorage.getItem('book title');
+function render(bookFromStorage) {
+  const h3 = getElById('formH3') ?? document.createElement('h3');
+  h3.setAttribute('id', 'formH3');
+  h3.innerText = JSON.parse(bookFromStorage);
   console.log(h3);
   document.body.appendChild(h3);
 }
