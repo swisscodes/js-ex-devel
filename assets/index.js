@@ -33,7 +33,6 @@ function render(bookFromStorage) {
   }
 
   h3.innerText = bookFromStorage;
-  console.log(h3);
   document.body.appendChild(h3);
 }
 function storeItem(booksDetails) {
