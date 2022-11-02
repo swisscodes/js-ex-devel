@@ -6,17 +6,17 @@ testform.addEventListener('submit', (event) => {
   const bookTitle = testform.elements['book_titles'].value;
 
   var bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
-  if (bookFromStorage) {
+  if (bookFromStorage && bookTitle) {
     localStorage.setItem(
       'book titles',
       storeItem({ bookFromStorage, bookTitle })
     );
     bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
-  } else {
+  } else if (bookTitle) {
     //incase we need to remove the key from localstorage at refresh or when leaving page
-    // window.onbeforeunload = function () {
-    //   localStorage.removeItem('book titles');
-    // };
+    onbeforeunload = function () {
+      localStorage.removeItem('book titles');
+    };
     localStorage.setItem('book titles', storeItem({ bookTitle }));
     bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
   }
@@ -26,8 +26,12 @@ testform.addEventListener('submit', (event) => {
 });
 
 function render(bookFromStorage) {
-  const h3 = getElById('formH3') ?? document.createElement('h3');
-  h3.setAttribute('id', 'formH3');
+  var h3 = getElById('formH3');
+  if (!h3) {
+    h3 = document.createElement('h3');
+    h3.setAttribute('id', 'formH3');
+  }
+
   h3.innerText = bookFromStorage;
   console.log(h3);
   document.body.appendChild(h3);
