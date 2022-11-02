@@ -7,14 +7,17 @@ testform.addEventListener('submit', (event) => {
 
   var bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
   if (bookFromStorage) {
-    localStorage.setItem('book titles', storeItem(bookFromStorage, bookTitle));
+    localStorage.setItem(
+      'book titles',
+      storeItem({ bookFromStorage, bookTitle })
+    );
     bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
   } else {
     //incase we need to remove the key from localstorage at refresh or when leaving page
     // window.onbeforeunload = function () {
     //   localStorage.removeItem('book titles');
     // };
-    localStorage.setItem('book titles', JSON.stringify([bookTitle]));
+    localStorage.setItem('book titles', storeItem({ bookTitle }));
     bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
   }
 
@@ -29,6 +32,9 @@ function render(bookFromStorage) {
   console.log(h3);
   document.body.appendChild(h3);
 }
-function storeItem(bookFromStorage, bookTitle) {
-  return JSON.stringify([...bookFromStorage, bookTitle]);
+function storeItem(booksDetails) {
+  const { bookFromStorage, bookTitle } = booksDetails;
+  return bookFromStorage
+    ? JSON.stringify([...bookFromStorage, bookTitle])
+    : JSON.stringify([bookTitle]);
 }
