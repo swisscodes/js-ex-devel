@@ -13,9 +13,10 @@ testform.addEventListener('submit', (event) => {
     );
     bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
   } else {
-    window.onbeforeunload = function () {
-      localStorage.removeItem('book titles');
-    };
+    //incase we need to remove the key from localstorage at refresh or when leaving page
+    // window.onbeforeunload = function () {
+    //   localStorage.removeItem('book titles');
+    // };
     localStorage.setItem('book titles', JSON.stringify([bookTitle]));
     bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
   }
