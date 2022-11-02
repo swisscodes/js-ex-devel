@@ -3,20 +3,31 @@ const testform = getElById('testform');
 
 testform.addEventListener('submit', (event) => {
   event.preventDefault();
-  var bookFromStorage;
+  const bookTitle = testform.elements['book_titles'].value;
 
-  const bookTitle = testform.elements['book_title'].value;
+  var bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
+  if (bookFromStorage) {
+    localStorage.setItem(
+      'book titles',
+      JSON.stringify([...bookFromStorage, bookTitle])
+    );
+    bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
+  } else {
+    window.onbeforeunload = function () {
+      localStorage.removeItem('book titles');
+    };
+    localStorage.setItem('book titles', JSON.stringify([bookTitle]));
+    bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
+  }
 
-  localStorage.setItem('book title', JSON.stringify(bookTitle));
-  bookFromStorage = localStorage.getItem('book title');
   render(bookFromStorage);
-  testform.elements['book_title'].value = '';
+  testform.elements['book_titles'].value = '';
 });
 
 function render(bookFromStorage) {
   const h3 = getElById('formH3') ?? document.createElement('h3');
   h3.setAttribute('id', 'formH3');
-  h3.innerText = JSON.parse(bookFromStorage);
+  h3.innerText = bookFromStorage;
   console.log(h3);
   document.body.appendChild(h3);
 }
