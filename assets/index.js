@@ -4,21 +4,17 @@ const testform = getElById('testform');
 testform.addEventListener('submit', (event) => {
   event.preventDefault();
   const bookTitle = testform.elements['book_titles'].value;
+  const titleKey = 'book titles';
 
-  var bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
+  var bookFromStorage = getItem(titleKey);
   if (bookFromStorage && bookTitle) {
-    localStorage.setItem(
-      'book titles',
-      storeItem({ bookFromStorage, bookTitle })
-    );
-    bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
+    localStorage.setItem(titleKey, storeItem({ bookFromStorage, bookTitle }));
+    bookFromStorage = JSON.parse(localStorage.getItem(titleKey));
   } else if (bookTitle) {
     //incase we need to remove the key from localstorage at refresh or when leaving page
-    onbeforeunload = function () {
-      localStorage.removeItem('book titles');
-    };
-    localStorage.setItem('book titles', storeItem({ bookTitle }));
-    bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
+    onbeforeunload = () => localStorage.removeItem(titleKey);
+    localStorage.setItem(titleKey, storeItem({ bookTitle }));
+    bookFromStorage = JSON.parse(localStorage.getItem(titleKey));
   }
 
   render(bookFromStorage);
@@ -40,4 +36,8 @@ function storeItem(booksDetails) {
   return bookFromStorage
     ? JSON.stringify([...bookFromStorage, bookTitle])
     : JSON.stringify([bookTitle]);
+}
+
+function getItem(key) {
+  return JSON.parse(localStorage.getItem(key));
 }
