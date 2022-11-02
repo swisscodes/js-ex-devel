@@ -7,10 +7,7 @@ testform.addEventListener('submit', (event) => {
 
   var bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
   if (bookFromStorage) {
-    localStorage.setItem(
-      'book titles',
-      JSON.stringify([...bookFromStorage, bookTitle])
-    );
+    localStorage.setItem('book titles', storeItem(bookFromStorage, bookTitle));
     bookFromStorage = JSON.parse(localStorage.getItem('book titles'));
   } else {
     //incase we need to remove the key from localstorage at refresh or when leaving page
@@ -31,4 +28,7 @@ function render(bookFromStorage) {
   h3.innerText = bookFromStorage;
   console.log(h3);
   document.body.appendChild(h3);
+}
+function storeItem(bookFromStorage, bookTitle) {
+  return JSON.stringify([...bookFromStorage, bookTitle]);
 }
