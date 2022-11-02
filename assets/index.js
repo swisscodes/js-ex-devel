@@ -5,8 +5,8 @@ testform.addEventListener('submit', (event) => {
   event.preventDefault();
   const bookTitle = testform.elements['book_titles'].value;
   const titleKey = 'book titles';
-
   var bookFromStorage = getItem(titleKey);
+
   if (bookFromStorage && bookTitle) {
     localStorage.setItem(titleKey, storeItem({ bookFromStorage, bookTitle }));
     bookFromStorage = JSON.parse(localStorage.getItem(titleKey));
