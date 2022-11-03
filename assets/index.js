@@ -9,12 +9,12 @@ testform.addEventListener('submit', (event) => {
 
   if (bookFromStorage && bookTitle) {
     localStorage.setItem(titleKey, storeItem({ bookFromStorage, bookTitle }));
-    bookFromStorage = JSON.parse(localStorage.getItem(titleKey));
+    bookFromStorage = getItem(titleKey);
   } else if (bookTitle) {
     //incase we need to remove the key from localstorage at refresh or when leaving page
     onbeforeunload = () => localStorage.removeItem(titleKey);
     localStorage.setItem(titleKey, storeItem({ bookTitle }));
-    bookFromStorage = JSON.parse(localStorage.getItem(titleKey));
+    bookFromStorage = getItem(titleKey);
   }
 
   render(bookFromStorage);
