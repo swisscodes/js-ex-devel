@@ -2,10 +2,11 @@ const getElById = (id) => document.getElementById(id);
 const testform = getElById('testform');
 
 testform.addEventListener('submit', (event) => {
-  event.preventDefault();
   const bookTitle = testform.elements['book_titles'].value;
   const titleKey = 'book titles';
   var bookFromStorage = getItem(titleKey);
+
+  event.preventDefault();
 
   if (bookFromStorage && bookTitle) {
     localStorage.setItem(titleKey, storeItem({ bookFromStorage, bookTitle }));
